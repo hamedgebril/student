@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>أ. إسلام البرماوي - منصة إدارة الطلاب</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#1a3a5c;--pri2:#234d7a;--acc:#e8a020;
+  --bg:#f0f4f8;--card:#fff;--txt:#1a2535;--txt2:#4a5568;--txt3:#8896a8;
+  --border:#d1dce8;--ok:#1d9e75;--no:#d85a30;--r:12px;
+}
+body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);direction:rtl;min-height:100vh}
+.hdr{background:var(--pri);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hdr-logo{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:42px;height:42px;background:var(--acc);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:var(--pri);flex-shrink:0}
+.hdr-title{font-size:16px;font-weight:700;color:#fff}
+.hdr-sub{font-size:11px;color:rgba(255,255,255,0.55)}
+.hdr-stats{display:flex;gap:16px}
+.hs{text-align:center}
+.hs-n{font-size:20px;font-weight:700;color:#f5b942}
+.hs-l{font-size:10px;color:rgba(255,255,255,0.5)}
+.bottom-nav{background:var(--pri2);display:flex;border-top:1px solid rgba(255,255,255,0.1);position:sticky;top:0;z-index:50}
+.bnav-item{flex:1;padding:12px 4px 10px;text-align:center;cursor:pointer;border-bottom:3px solid transparent;transition:.15s;user-select:none}
+.bnav-item.active{border-bottom-color:var(--acc);background:rgba(255,255,255,0.05)}
+.bnav-icon{font-size:20px;display:block;margin-bottom:2px}
+.bnav-label{font-size:11px;color:rgba(255,255,255,0.55);font-weight:500}
+.bnav-item.active .bnav-label{color:#fff}
+.main{padding:16px;max-width:900px;margin:0 auto;padding-bottom:30px}
+.page{display:none}.page.active{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.stat-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.stat-ico{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.stat-ico.b{background:#e6f1fb}.stat-ico.g{background:#e8faf0}.stat-ico.a{background:#faeeda}.stat-ico.r{background:#fff3f0}
+.stat-n{font-size:22px;font-weight:700;color:var(--txt)}
+.stat-l{font-size:11px;color:var(--txt3)}
+.sec-title{font-size:14px;font-weight:700;color:var(--txt);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.sec-title::before{content:'';width:3px;height:16px;background:var(--acc);border-radius:2px}
+.add-fab{background:var(--pri);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;transition:.15s}
+.add-fab:hover{background:var(--pri2)}
+.group-card{background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:10px;overflow:hidden}
+.gc-head{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.gc-name{font-size:15px;font-weight:700;color:var(--txt)}
+.gc-meta{font-size:12px;color:var(--txt3);margin-top:1px}
+.gc-wa{background:#25d366;color:#fff;border:none;border-radius:7px;padding:6px 10px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif;text-decoration:none;display:inline-block;white-space:nowrap}
+.gc-stats{padding:0 14px 10px;display:flex;gap:8px}
+.gc-stat{background:var(--bg);border-radius:7px;padding:6px 10px;text-align:center;flex:1}
+.gc-sn{font-size:16px;font-weight:700;color:var(--pri)}
+.gc-sl{font-size:10px;color:var(--txt3)}
+.gc-foot{padding:8px 14px;border-top:1px solid var(--border);display:flex;gap:6px;flex-wrap:wrap}
+.btn-xs{border:1px solid var(--border);background:var(--card);color:var(--txt);border-radius:7px;padding:6px 10px;font-size:11px;font-weight:600;cursor:pointer;font-family:'Cairo',sans-serif;transition:.12s}
+.btn-xs:hover{background:var(--bg)}
+.btn-xs.pri{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn-xs.del{background:#fff3f0;color:var(--no);border-color:#f5c4b3}
+.student-item{background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:8px;padding:12px 14px}
+.si-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.si-av{width:36px;height:36px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.si-name{font-size:14px;font-weight:700;flex:1}
+.si-group{font-size:11px;color:var(--txt3)}
+.si-links{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.wa-btn{display:inline-flex;align-items:center;gap:4px;background:#e8faf0;color:#085041;border-radius:6px;padding:5px 9px;font-size:11px;font-weight:700;text-decoration:none}
+.months-row{display:flex;gap:3px;flex-wrap:wrap}
+.md{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;cursor:pointer;border:1px solid var(--border);transition:.12s;color:var(--txt3);background:var(--bg)}
+.md.paid{background:var(--ok);color:#fff;border-color:var(--ok)}
+.md:hover{transform:scale(1.1)}
+.pay-selectors{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
+.pay-sel{border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:13px;font-family:'Cairo',sans-serif;color:var(--txt);background:var(--card);outline:none;flex:1;min-width:110px}
+.pay-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.ps{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px;text-align:center}
+.ps-n{font-size:22px;font-weight:700}
+.ps-l{font-size:11px;color:var(--txt3)}
+.pay-item{background:var(--card);border-radius:var(--r);border:1px solid var(--border);margin-bottom:8px;padding:12px 14px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pi-name{display:flex;align-items:center;gap:8px}
+.pi-av{width:32px;height:32px;border-radius:50%;background:var(--pri);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.badge{display:inline-block;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700}
+.badge.ok{background:#e8faf0;color:#085041}
+.badge.no{background:#fff3f0;color:#712b13}
+.pay-toggle{border:none;border-radius:7px;padding:7px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif}
+.pay-toggle.do{background:var(--pri);color:#fff}
+.pay-toggle.undo{background:#fff3f0;color:var(--no)}
+.filter-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.fsel{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:'Cairo',sans-serif;color:var(--txt);background:var(--card);outline:none}
+.search{border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:12px;font-family:'Cairo',sans-serif;color:var(--txt);background:var(--card);outline:none;flex:1;min-width:100px}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;align-items:flex-end;justify-content:center}
+.modal-wrap.open{display:flex}
+.modal{background:var(--card);border-radius:16px 16px 0 0;padding:24px 20px;width:100%;max-width:500px;max-height:85vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:700;margin-bottom:18px}
+.fg{margin-bottom:12px}
+.fl{font-size:12px;font-weight:700;color:var(--txt2);margin-bottom:5px;display:block}
+.fi{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:14px;font-family:'Cairo',sans-serif;color:var(--txt);outline:none;background:#fff}
+.fi:focus{border-color:var(--pri2)}
+.fsel2{width:100%;border:1px solid var(--border);border-radius:8px;padding:9px 11px;font-size:14px;font-family:'Cairo',sans-serif;color:var(--txt);outline:none;background:#fff}
+.modal-btns{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+.btn-cancel{background:var(--bg);border:1px solid var(--border);color:var(--txt);border-radius:8px;padding:9px 16px;font-size:13px;cursor:pointer;font-family:'Cairo',sans-serif}
+.btn-save{background:var(--pri);color:#fff;border:none;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Cairo',sans-serif}
+.empty{padding:32px;text-align:center;color:var(--txt3);font-size:13px;background:var(--card);border-radius:var(--r);border:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-logo">
+    <div class="hdr-icon">إ</div>
+    <div>
+      <div class="hdr-title">أ. إسلام البرماوي</div>
+      <div class="hdr-sub">منصة إدارة الطلاب</div>
+    </div>
+  </div>
+  <div class="hdr-stats">
+    <div class="hs"><div class="hs-n" id="hs1">0</div><div class="hs-l">طالب</div></div>
+    <div class="hs"><div class="hs-n" id="hs2">0</div><div class="hs-l">مجموعة</div></div>
+    <div class="hs"><div class="hs-n" id="hs3">0</div><div class="hs-l">دفعوا</div></div>
+  </div>
+</div>
+
+<div class="bottom-nav">
+  <div class="bnav-item active" onclick="nav('dash',this)">
+    <span class="bnav-icon">🏠</span><span class="bnav-label">الرئيسية</span>
+  </div>
+  <div class="bnav-item" onclick="nav('groups',this)">
+    <span class="bnav-icon">📚</span><span class="bnav-label">المجموعات</span>
+  </div>
+  <div class="bnav-item" onclick="nav('students',this)">
+    <span class="bnav-icon">👨‍🎓</span><span class="bnav-label">الطلاب</span>
+  </div>
+  <div class="bnav-item" onclick="nav('payments',this)">
+    <span class="bnav-icon">💰</span><span class="bnav-label">المدفوعات</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="page active" id="page-dash">
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-ico b">👥</div><div><div class="stat-n" id="d1">0</div><div class="stat-l">إجمالي الطلاب</div></div></div>
+      <div class="stat-card"><div class="stat-ico g">📚</div><div><div class="stat-n" id="d2">0</div><div class="stat-l">المجموعات</div></div></div>
+      <div class="stat-card"><div class="stat-ico a">✅</div><div><div class="stat-n" id="d3">0</div><div class="stat-l">دفعوا الشهر</div></div></div>
+      <div class="stat-card"><div class="stat-ico r">⏳</div><div><div class="stat-n" id="d4">0</div><div class="stat-l">لم يدفعوا</div></div></div>
+    </div>
+    <div class="sec-title">آخر الطلاب المضافين</div>
+    <div id="dash-list"></div>
+  </div>
+
+  <div class="page" id="page-groups">
+    <button class="add-fab" onclick="openModal('mg')">+ إضافة مجموعة</button>
+    <div id="groups-list"></div>
+  </div>
+
+  <div class="page" id="page-students">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+      <button class="add-fab" style="margin-bottom:0" onclick="openModal('ms')">+ إضافة طالب</button>
+    </div>
+    <div class="filter-bar">
+      <select class="fsel" id="sf-group" onchange="renderStudents()"><option value="">كل المجموعات</option></select>
+      <select class="fsel" id="sf-year" onchange="renderStudents()"></select>
+      <input class="search" id="sf-search" placeholder="بحث بالاسم..." oninput="renderStudents()">
+    </div>
+    <div id="students-list"></div>
+  </div>
+
+  <div class="page" id="page-payments">
+    <div class="pay-selectors">
+      <select class="pay-sel" id="py-year" onchange="renderPayments()"></select>
+      <select class="pay-sel" id="py-month" onchange="renderPayments()"></select>
+      <select class="pay-sel" id="py-group" onchange="renderPayments()"><option value="">كل المجموعات</option></select>
+    </div>
+    <div class="pay-stats">
+      <div class="ps"><div class="ps-n" id="py-paid" style="color:var(--ok)">0</div><div class="ps-l">دفعوا</div></div>
+      <div class="ps"><div class="ps-n" id="py-unpaid" style="color:var(--no)">0</div><div class="ps-l">لم يدفعوا</div></div>
+      <div class="ps"><div class="ps-n" id="py-total" style="color:var(--pri)">0</div><div class="ps-l">إجمالي</div></div>
+    </div>
+    <div id="pay-list"></div>
+  </div>
+
+</div>
+
+<div class="modal-wrap" id="mg">
+  <div class="modal">
+    <div class="modal-title">إضافة مجموعة جديدة</div>
+    <div class="fg"><label class="fl">اسم المجموعة *</label><input class="fi" id="g-name" placeholder="مثال: مجموعة أ - أولى ثانوي"></div>
+    <div class="fg"><label class="fl">وصف / مواعيد</label><input class="fi" id="g-desc" placeholder="مثال: السبت والثلاثاء 4-6 مساءً"></div>
+    <div class="fg"><label class="fl">لينك واتساب المجموعة</label><input class="fi" id="g-wa" placeholder="https://chat.whatsapp.com/..."></div>
+    <div class="fg"><label class="fl">رسوم الشهر (جنيه)</label><input class="fi" id="g-fee" type="number" placeholder="300"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('mg')">إلغاء</button>
+      <button class="btn-save" onclick="saveGroup()">حفظ المجموعة</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-wrap" id="ms">
+  <div class="modal">
+    <div class="modal-title">إضافة طالب جديد</div>
+    <div class="fg"><label class="fl">اسم الطالب *</label><input class="fi" id="s-name" placeholder="الاسم كاملاً"></div>
+    <div class="fg"><label class="fl">المجموعة *</label><select class="fsel2" id="s-group"></select></div>
+    <div class="fg"><label class="fl">موبايل الطالب</label><input class="fi" id="s-phone" placeholder="01xxxxxxxxx" type="tel"></div>
+    <div class="fg"><label class="fl">موبايل ولي الأمر</label><input class="fi" id="s-parent" placeholder="01xxxxxxxxx" type="tel"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('ms')">إلغاء</button>
+      <button class="btn-save" onclick="saveStudent()">حفظ الطالب</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const MN=['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+const MS=['ين','فب','مر','أب','ما','يو','يل','أغ','سب','أك','نو','دي'];
+let groups=JSON.parse(localStorage.getItem('ig_groups')||'[]');
+let students=JSON.parse(localStorage.getItem('ig_students')||'[]');
+function save(){localStorage.setItem('ig_groups',JSON.stringify(groups));localStorage.setItem('ig_students',JSON.stringify(students));}
+function nav(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='payments'){const now=new Date();document.getElementById('py-year').value=now.getFullYear();document.getElementById('py-month').value=now.getMonth();}
+  renderAll();
+}
+function buildYearSelect(){
+  const sel=document.getElementById('py-year');const cur=new Date().getFullYear();sel.innerHTML='';
+  for(let y=2024;y<=2035;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===cur)o.selected=true;sel.appendChild(o);}
+}
+function buildStudentYearSelect(){
+  const sel=document.getElementById('sf-year');const cur=new Date().getFullYear();sel.innerHTML='';
+  for(let y=2024;y<=2035;y++){const o=document.createElement('option');o.value=y;o.textContent=y;if(y===cur)o.selected=true;sel.appendChild(o);}
+}
+function buildMonthSelect(){
+  const sel=document.getElementById('py-month');
+  sel.innerHTML=MN.map((m,i)=>'<option value="'+i+'">'+m+'</option>').join('');
+  sel.value=new Date().getMonth();
+}
+function payKey(y,m){return y+'_'+m;}
+function updateHeader(){
+  const k=payKey(new Date().getFullYear(),new Date().getMonth());
+  document.getElementById('hs1').textContent=students.length;
+  document.getElementById('hs2').textContent=groups.length;
+  document.getElementById('hs3').textContent=students.filter(s=>s.payments&&s.payments[k]).length;
+}
+function renderDash(){
+  const k=payKey(new Date().getFullYear(),new Date().getMonth());
+  const paid=students.filter(s=>s.payments&&s.payments[k]).length;
+  document.getElementById('d1').textContent=students.length;
+  document.getElementById('d2').textContent=groups.length;
+  document.getElementById('d3').textContent=paid;
+  document.getElementById('d4').textContent=students.length-paid;
+  const el=document.getElementById('dash-list');
+  if(!students.length){el.innerHTML='<div class="empty">لا يوجد طلاب بعد. ابدأ بإضافة مجموعة ثم طالب.</div>';return;}
+  el.innerHTML=[...students].reverse().slice(0,8).map(s=>{
+    const g=groups.find(x=>x.id===s.groupId)||{name:'—'};
+    const isPaid=s.payments&&s.payments[k];
+    return '<div class="student-item"><div class="si-top"><div class="si-av">'+s.name.charAt(0)+'</div><div style="flex:1"><div class="si-name">'+s.name+'</div><div class="si-group">'+g.name+'</div></div><span class="badge '+(isPaid?'ok':'no')+'">'+(isPaid?'دفع':'لم يدفع')+'</span></div></div>';
+  }).join('');
+}
+function renderGroups(){
+  const el=document.getElementById('groups-list');
+  if(!groups.length){el.innerHTML='<div class="empty">لا توجد مجموعات. اضغط إضافة مجموعة.</div>';return;}
+  const k=payKey(new Date().getFullYear(),new Date().getMonth());
+  el.innerHTML=groups.map(g=>{
+    const gs=students.filter(s=>s.groupId===g.id);
+    const pc=gs.filter(s=>s.payments&&s.payments[k]).length;
+    return '<div class="group-card"><div class="gc-head"><div><div class="gc-name">'+g.name+'</div><div class="gc-meta">'+(g.desc||'')+(g.fee?' · '+g.fee+' جنيه/شهر':'')+'</div></div>'+(g.waLink?'<a class="gc-wa" href="'+g.waLink+'" target="_blank">📲 واتساب</a>':'')+'</div><div class="gc-stats"><div class="gc-stat"><div class="gc-sn">'+gs.length+'</div><div class="gc-sl">طالب</div></div><div class="gc-stat"><div class="gc-sn" style="color:var(--ok)">'+pc+'</div><div class="gc-sl">دفعوا</div></div><div class="gc-stat"><div class="gc-sn" style="color:var(--no)">'+(gs.length-pc)+'</div><div class="gc-sl">لم يدفعوا</div></div></div><div class="gc-foot"><button class="btn-xs pri" onclick="goStudentsGroup(\''+g.id+'\')">عرض الطلاب</button>'+(g.waLink?'<button class="btn-xs" onclick="window.open(\''+g.waLink+'\',\'_blank\')">رابط المجموعة</button>':'')+'<button class="btn-xs del" onclick="delGroup(\''+g.id+'\')">حذف</button></div></div>';
+  }).join('');
+}
+function goStudentsGroup(gid){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.bnav-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-students').classList.add('active');
+  document.querySelectorAll('.bnav-item')[2].classList.add('active');
+  document.getElementById('sf-group').value=gid;
+  renderStudents();
+}
+function renderStudents(){
+  const fg=document.getElementById('sf-group').value;
+  const search=document.getElementById('sf-search').value.trim().toLowerCase();
+  const cy=parseInt(document.getElementById('sf-year').value)||new Date().getFullYear();
+  const list=students.filter(s=>(!fg||s.groupId===fg)&&(!search||s.name.toLowerCase().includes(search)));
+  const el=document.getElementById('students-list');
+  if(!list.length){el.innerHTML='<div class="empty">لا يوجد طلاب مطابقون.</div>';return;}
+  el.innerHTML=list.map(s=>{
+    const g=groups.find(x=>x.id===s.groupId)||{name:'—'};
+    const mDots=MS.map((m,i)=>{const k=payKey(cy,i);const paid=s.payments&&s.payments[k];return '<div class="md '+(paid?'paid':'')+'" onclick="togglePayDot(\''+s.id+'\','+cy+','+i+')" title="'+MN[i]+'">'+m+'</div>';}).join('');
+    const waS=s.phone?'<a class="wa-btn" href="https://wa.me/2'+s.phone.replace(/^0/,'')+'" target="_blank">📱 الطالب</a>':'';
+    const waP=s.parent?'<a class="wa-btn" href="https://wa.me/2'+s.parent.replace(/^0/,'')+'" target="_blank">👨‍👦 ولي الأمر</a>':'';
+    return '<div class="student-item"><div class="si-top"><div class="si-av">'+s.name.charAt(0)+'</div><div style="flex:1"><div class="si-name">'+s.name+'</div><div class="si-group">'+g.name+'</div></div><button class="btn-xs del" onclick="delStudent(\''+s.id+'\')">حذف</button></div>'+(waS||waP?'<div class="si-links">'+waS+waP+'</div>':'')+'<div style="font-size:11px;color:var(--txt3);margin-bottom:5px">الدفع بالشهر ('+cy+') — اضغط للتبديل:</div><div class="months-row">'+mDots+'</div></div>';
+  }).join('');
+}
+function renderPayments(){
+  const year=parseInt(document.getElementById('py-year').value);
+  const month=parseInt(document.getElementById('py-month').value);
+  const fg=document.getElementById('py-group').value;
+  const k=payKey(year,month);
+  const list=students.filter(s=>!fg||s.groupId===fg);
+  const paid=list.filter(s=>s.payments&&s.payments[k]);
+  const unpaid=list.filter(s=>!s.payments||!s.payments[k]);
+  document.getElementById('py-paid').textContent=paid.length;
+  document.getElementById('py-unpaid').textContent=unpaid.length;
+  document.getElementById('py-total').textContent=list.length;
+  const el=document.getElementById('pay-list');
+  if(!list.length){el.innerHTML='<div class="empty">لا يوجد طلاب.</div>';return;}
+  el.innerHTML=[...unpaid,...paid].map(s=>{
+    const g=groups.find(x=>x.id===s.groupId)||{name:'—'};
+    const isPaid=s.payments&&s.payments[k];
+    return '<div class="pay-item"><div class="pi-name"><div class="pi-av">'+s.name.charAt(0)+'</div><div><div style="font-size:13px;font-weight:700">'+s.name+'</div><div style="font-size:11px;color:var(--txt3)">'+g.name+'</div></div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge '+(isPaid?'ok':'no')+'">'+(isPaid?'دفع '+MN[month]:'لم يدفع')+'</span><button class="pay-toggle '+(isPaid?'undo':'do')+'" onclick="togglePay(\''+s.id+'\',\''+k+'\')">'+(isPaid?'إلغاء ✕':'تسجيل دفع ✓')+'</button></div></div>';
+  }).join('');
+}
+function renderDropdowns(){
+  const gOpts='<option value="">كل المجموعات</option>'+groups.map(g=>'<option value="'+g.id+'">'+g.name+'</option>').join('');
+  document.getElementById('sf-group').innerHTML=gOpts;
+  document.getElementById('py-group').innerHTML=gOpts;
+  document.getElementById('s-group').innerHTML=groups.map(g=>'<option value="'+g.id+'">'+g.name+'</option>').join('')||'<option value="">لا توجد مجموعات - أضف أولاً</option>';
+}
+function renderAll(){renderDropdowns();renderDash();renderGroups();renderStudents();renderPayments();updateHeader();}
+function openModal(id){
+  if(id==='ms'&&!groups.length){alert('أضف مجموعة أولاً');return;}
+  ['g-name','g-desc','g-wa','g-fee','s-name','s-phone','s-parent'].forEach(x=>{const el=document.getElementById(x);if(el)el.value='';});
+  renderDropdowns();document.getElementById(id).classList.add('open');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function saveGroup(){
+  const name=document.getElementById('g-name').value.trim();
+  if(!name){alert('أدخل اسم المجموعة');return;}
+  groups.push({id:'g'+Date.now(),name,desc:document.getElementById('g-desc').value.trim(),waLink:document.getElementById('g-wa').value.trim(),fee:document.getElementById('g-fee').value});
+  save();closeModal('mg');renderAll();
+}
+function saveStudent(){
+  const name=document.getElementById('s-name').value.trim();
+  const gid=document.getElementById('s-group').value;
+  if(!name){alert('أدخل اسم الطالب');return;}
+  if(!gid){alert('اختر المجموعة');return;}
+  students.push({id:'s'+Date.now(),name,groupId:gid,phone:document.getElementById('s-phone').value.trim(),parent:document.getElementById('s-parent').value.trim(),payments:{}});
+  save();closeModal('ms');renderAll();
+}
+function togglePay(sid,key){
+  const s=students.find(x=>x.id===sid);if(!s)return;
+  if(!s.payments)s.payments={};
+  s.payments[key]?delete s.payments[key]:s.payments[key]=true;
+  save();renderAll();
+}
+function togglePayDot(sid,year,month){togglePay(sid,payKey(year,month));}
+function delGroup(id){
+  if(!confirm('حذف المجموعة وكل طلابها؟'))return;
+  groups=groups.filter(g=>g.id!==id);students=students.filter(s=>s.groupId!==id);save();renderAll();
+}
+function delStudent(id){
+  if(!confirm('حذف الطالب؟'))return;
+  students=students.filter(s=>s.id!==id);save();renderAll();
+}
+document.querySelectorAll('.modal-wrap').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+buildYearSelect();buildStudentYearSelect();buildMonthSelect();renderAll();
+</script>
+</body>
+</html>
