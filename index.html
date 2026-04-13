@@ -236,6 +236,23 @@ body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--txt);direct
   </div>
 </div>
 
+<!-- Modal: Edit Group -->
+<div class="modal-wrap" id="mge">
+  <div class="modal">
+    <div class="modal-drag" onclick="closeModal('mge')"></div>
+    <div class="modal-title">تعديل بيانات المجموعة</div>
+    <input type="hidden" id="ge-id">
+    <div class="fg"><label class="fl">اسم المجموعة *</label><input class="fi" id="ge-name" placeholder="مثال: مجموعة أ - أولى ثانوي"></div>
+    <div class="fg"><label class="fl">وصف / مواعيد</label><input class="fi" id="ge-desc" placeholder="مثال: السبت والثلاثاء 4-6 مساءً"></div>
+    <div class="fg"><label class="fl">لينك واتساب المجموعة</label><input class="fi" id="ge-wa" placeholder="https://chat.whatsapp.com/..."></div>
+    <div class="fg"><label class="fl">رسوم الشهر (جنيه)</label><input class="fi" id="ge-fee" type="number" placeholder="300"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('mge')">إلغاء</button>
+      <button class="btn-save" onclick="updateGroup()">حفظ التعديل</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: Add Student -->
 <div class="modal-wrap" id="ms">
   <div class="modal">
@@ -358,7 +375,7 @@ function renderGroups(){
   el.innerHTML=groups.map(g=>{
     const gs=students.filter(s=>s.groupId===g.id);
     const pc=gs.filter(s=>s.payments&&s.payments[k]).length;
-    return '<div class="group-card"><div class="gc-head"><div><div class="gc-name">'+g.name+'</div><div class="gc-meta">'+(g.desc||'')+(g.fee?' · '+g.fee+' جنيه/شهر':'')+'</div></div>'+(g.waLink?'<a class="gc-wa" href="'+g.waLink+'" target="_blank">📲 واتساب</a>':'')+'</div><div class="gc-stats"><div class="gc-stat"><div class="gc-sn">'+gs.length+'</div><div class="gc-sl">طالب</div></div><div class="gc-stat"><div class="gc-sn" style="color:var(--ok)">'+pc+'</div><div class="gc-sl">دفعوا</div></div><div class="gc-stat"><div class="gc-sn" style="color:var(--no)">'+(gs.length-pc)+'</div><div class="gc-sl">لم يدفعوا</div></div></div><div class="gc-foot"><button class="btn-xs pri" onclick="goStudentsGroup(\''+g.id+'\')">عرض الطلاب</button>'+(g.waLink?'<button class="btn-xs" onclick="window.open(\''+g.waLink+'\',\'_blank\')">رابط المجموعة</button>':'')+'<button class="btn-xs del" onclick="delGroup(\''+g.id+'\')">حذف</button></div></div>';
+    return '<div class="group-card"><div class="gc-head"><div><div class="gc-name">'+g.name+'</div><div class="gc-meta">'+(g.desc||'')+(g.fee?' · '+g.fee+' جنيه/شهر':'')+'</div></div>'+(g.waLink?'<a class="gc-wa" href="'+g.waLink+'" target="_blank">📲 واتساب</a>':'')+'</div><div class="gc-stats"><div class="gc-stat"><div class="gc-sn">'+gs.length+'</div><div class="gc-sl">طالب</div></div><div class="gc-stat"><div class="gc-sn" style="color:var(--ok)">'+pc+'</div><div class="gc-sl">دفعوا</div></div><div class="gc-stat"><div class="gc-sn" style="color:var(--no)">'+(gs.length-pc)+'</div><div class="gc-sl">لم يدفعوا</div></div></div><div class="gc-foot"><button class="btn-xs pri" onclick="goStudentsGroup(\''+g.id+'\')">عرض الطلاب</button><button class="btn-xs pri" onclick="openEditGroup(\''+g.id+'\')">✏️ تعديل</button>'+(g.waLink?'<button class="btn-xs" onclick="window.open(\''+g.waLink+'\',\'_blank\')">رابط المجموعة</button>':'')+'<button class="btn-xs del" onclick="delGroup(\''+g.id+'\')">حذف</button></div></div>';
   }).join('');
 }
 
@@ -426,6 +443,29 @@ function renderAll(){renderDropdowns();renderDash();renderGroups();renderStudent
 function openAddGroup(){
   ['g-name','g-desc','g-wa','g-fee'].forEach(x=>document.getElementById(x).value='');
   document.getElementById('mg').classList.add('open');
+}
+
+function openEditGroup(id){
+  const g=groups.find(x=>x.id===id);if(!g)return;
+  document.getElementById('ge-id').value=g.id;
+  document.getElementById('ge-name').value=g.name||'';
+  document.getElementById('ge-desc').value=g.desc||'';
+  document.getElementById('ge-wa').value=g.waLink||'';
+  document.getElementById('ge-fee').value=g.fee||'';
+  document.getElementById('mge').classList.add('open');
+  setTimeout(()=>document.getElementById('ge-name').focus(),300);
+}
+
+function updateGroup(){
+  const id=document.getElementById('ge-id').value;
+  const name=document.getElementById('ge-name').value.trim();
+  if(!name){alert('أدخل اسم المجموعة');return;}
+  const g=groups.find(x=>x.id===id);if(!g)return;
+  g.name=name;
+  g.desc=document.getElementById('ge-desc').value.trim();
+  g.waLink=document.getElementById('ge-wa').value.trim();
+  g.fee=document.getElementById('ge-fee').value;
+  save();closeModal('mge');renderAll();
 }
 
 function openAddStudent(){
