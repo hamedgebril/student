@@ -297,8 +297,10 @@ function renderStudents(){
   el.innerHTML=list.map(s=>{
     const g=groups.find(x=>x.id===s.groupId)||{name:'—'};
     const mDots=MS.map((m,i)=>{const k=payKey(cy,i);const paid=s.payments&&s.payments[k];return '<div class="md '+(paid?'paid':'')+'" onclick="togglePayDot(\''+s.id+'\','+cy+','+i+')" title="'+MN[i]+'">'+m+'</div>';}).join('');
-    const waS=s.phone?'<a class="wa-btn" href="https://wa.me/2'+s.phone.replace(/^0/,'')+'" target="_blank">📱 الطالب</a>':'';
-    const waP=s.parent?'<a class="wa-btn" href="https://wa.me/2'+s.parent.replace(/^0/,'')+'" target="_blank">👨‍👦 ولي الأمر</a>':'';
+    const cp=s.phone?s.phone.replace(/\D/g,'').replace(/^20/,'').replace(/^0/,''):'';
+    const cpp=s.parent?s.parent.replace(/\D/g,'').replace(/^20/,'').replace(/^0/,''):'';
+    const waS=cp?'<a class="wa-btn" href="https://wa.me/20'+cp+'" target="_blank">📱 الطالب</a>':'';
+    const waP=cpp?'<a class="wa-btn" href="https://wa.me/20'+cpp+'" target="_blank">👨‍👦 ولي الأمر</a>':'';
     return '<div class="student-item"><div class="si-top"><div class="si-av">'+s.name.charAt(0)+'</div><div style="flex:1"><div class="si-name">'+s.name+'</div><div class="si-group">'+g.name+'</div></div><div style="display:flex;gap:5px"><button class="btn-xs pri" onclick="openEditStudent(\''+s.id+'\')">تعديل</button><button class="btn-xs del" onclick="delStudent(\''+s.id+'\')">حذف</button></div></div>'+(waS||waP?'<div class="si-links">'+waS+waP+'</div>':'')+'<div style="font-size:11px;color:var(--txt3);margin-bottom:5px">الدفع بالشهر ('+cy+') — اضغط للتبديل:</div><div class="months-row">'+mDots+'</div></div>';
   }).join('');
 }
